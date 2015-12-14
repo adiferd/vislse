@@ -83,6 +83,7 @@
             <ul class="nav nav-tabs" id="aboutTabs">
               <li class="active"><a href="#about" data-toggle="tab"><i class="fa fa-question-circle"></i>&nbsp;Tentang Aplikasi</a></li>
 							<li><a href="#data" data-toggle="tab"><i class="fa fa-envelope"></i>&nbsp;Data</a></li>
+							<li><a href="#rating" data-toggle="tab"><i class="fa fa-envelope"></i>&nbsp;Rating</a></li>
               <li><a href="#contact" data-toggle="tab"><i class="fa fa-envelope"></i>&nbsp;Kelompok</a></li>
             </ul>
             <div class="tab-content" id="aboutTabsContent">
@@ -94,8 +95,6 @@
                   <ul class="list-group">
                     <li class="list-group-item">Bubble plot map berdasarkan jumlah nilai lelang masing-masing propinsi</li>
                     <li class="list-group-item">Pie chart detail besaran kategori e-lelang di setiap propinsi</li>
-										<li class="list-group-item"></li>
-										<li class="list-group-item"></li>
 									</ul>
                 </div>
               </div>
@@ -110,6 +109,12 @@
 									</ul>
 								</p>
               </div>
+							<div class="tab-pane fade" id="rating">
+								<br>
+								<p>
+									Silahkan download form rating melalui <a href="https://docs.google.com/a/std.stei.itb.ac.id/document/d/1618MksooxLfiTaw0_1ftSXXPbxbhEHUyKTeMeqM8muE/edit?usp=sharing">tautan</a> berikut. Hasil rating akan ditampilkan di halaman ini pada tanggal 20 Desember 2015.
+								</p>
+							</div>
 							<div class="tab-pane fade" id="data">
 								<br>
 								<p>
@@ -130,7 +135,7 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h4 class="modal-title">Detail Lelang</h4>
+						<h4 class="modal-title text-primary" id="feature-title"></h4>
 					</div>
 					<div class="modal-body">
 						<ul class="nav nav-tabs" id="detailTabs">
@@ -197,6 +202,7 @@
 			var ctr = 0;
 			var info = {};
 			var pie;
+
 
 			function addContent(prov){
 				$.ajax({
@@ -311,17 +317,18 @@
 					,	maxZoom: 8
 				}).addTo (map);
 
-				// info = L.control();
-				//
+				info = L.control();
+
 				// info.onAdd = function (map) {
 				// 	this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
-				// 	this.update ("0000-00-00", "00:00:00");
+				// 	this.update ("<input type='radio' name='nilai' value='nilai'>", "Nilai");
+				// 	this.update ("<input type='radio' name='jumlah' value='jumlah'>", "Jumlah");
 				// 	return this._div;
 				// };
 				//
 				// info.update  = function (key, value)
 				// {
-				// 	this._div.innerHTML = '<h5>'+ key +' '+ value +'</h5>';
+				// 	this._div.innerHTML = '<p>'+ key +' '+ value +'</p>';
 				// }
 				//
 				// info.addTo (map);
@@ -359,7 +366,10 @@
 								fillColor: 'blue',
 								fillOpacity: 0.5
 						}).on('click', function() {
+									var nilai = val.hasil*1000000;
+									var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Jumlah Lelang</th><td>" + val.jumlah + "</td></tr>" + "<tr><th>Total Nilai</th><td>" + nilai + "</td></tr>" + "<table>";
 									$("#feature-info").html('');
+									$("#propinsi-info").html(content);
 									$("#feature-title").html(val.prop);
 									addContent(val.prop);
 						}).addTo(map);
